@@ -40,6 +40,8 @@ const remove = async (req, res) => {
 
 // full update
 // CRUD: Create, Read, Update, Delete
+// PATCH: partial update
+// PATCH: http://localhost:3000/api/products/:id body{}
 const update = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
@@ -50,10 +52,20 @@ const update = async (req, res) => {
     res.send();
 };
 
+const patch = async (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    await productRepository.patch(id, body);
+
+    res.status(204);
+    res.send();
+};
+
 module.exports = {
     get,
     post,
     getById,
     remove,
-    update
+    update,
+    patch
 };

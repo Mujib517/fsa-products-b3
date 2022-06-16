@@ -9,6 +9,7 @@ router.post('/', productCtrl.post);
 router.get('/:id', productCtrl.getById);
 router.delete('/:id', productCtrl.remove);
 router.put('/:id', productCtrl.update);
+router.patch('/:id', productCtrl.patch);
 // DELETE http://localhost:3000/api/products/:id
 
 module.exports = router;
