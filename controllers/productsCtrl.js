@@ -25,8 +25,13 @@ const post = async (req, res) => {
         res.status(201);
         res.send();
     } catch (err) {
-        res.status(500);
-        res.send('Internal Server Error');
+        if (err && err.message.indexOf('validation failed') > -1) {
+            res.status(400);
+            res.send(err);
+        } else {
+            res.status(500);
+            res.send(err);
+        }
     }
 };
 
