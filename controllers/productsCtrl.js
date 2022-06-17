@@ -2,9 +2,22 @@ const productRepository = require('../repositories/productRepository');
 
 const get = async (req, res) => {
     try {
-        const products = await productRepository.get();
+        const pageSize = +req.params.size;
+        const page = +req.params.page;
+        const data = await productRepository.get(page, pageSize);
+        const totalRecords = await productRepository.getCount();
+        const totalPages = Math.ceil(totalRecords / pageSize);
+
+        const repsonse = {
+            metadata: {
+                totalRecords,
+                totalPages,
+            },
+            data
+        };
+
         res.status(200);
-        res.json(products);
+        res.json(repsonse);
     } catch (err) {
         res.status(500);
         res.send('Internal Server Error');
