@@ -1,12 +1,33 @@
 const productRepository = require('../repositories/productRepository');
 
+const getOptions = (req) => {
+    const pageSize = +req.params.size || 10;
+    const page = +req.params.page || 1;
+
+    let sort = req.query.sort;
+    let dir = req.query.dir || '';
+
+    if (!sort) {
+        sort = 'updatedAt';
+        if (!dir) {
+            dir = 'DESC'
+        }
+    }
+
+    return {
+        page,
+        pageSize,
+        sort,
+        dir
+    };
+};
+
 const get = async (req, res) => {
     try {
-        const pageSize = +req.params.size || 10;
-        const page = +req.params.page || 1;
-        const data = await productRepository.get(page, pageSize);
+        const options = getOptions(req);
+        const data = await productRepository.get(options);
         const totalRecords = await productRepository.getCount();
-        const totalPages = Math.ceil(totalRecords / pageSize);
+        const totalPages = Math.ceil(totalRecords / options.pageSize);
 
         const repsonse = {
             metadata: {
@@ -19,6 +40,7 @@ const get = async (req, res) => {
         res.status(200);
         res.json(repsonse);
     } catch (err) {
+        console.log(err);
         res.status(500);
         res.send('Internal Server Error');
     }

@@ -1,9 +1,26 @@
 const Product = require('../models/productModel');
 
-const get = (page, pageSize) => {
+const get = (options) => {
+    const { page, pageSize, sort, dir } = options;
+
+    let direction;
+
+    switch (dir.toLowerCase()) {
+        case 'asc':
+            direction = 1;
+            break;
+        case 'desc':
+            direction = -1;
+            break;
+
+        default:
+            direction = 1;
+            break;
+    }
+
     return Product
         .find({}, { __v: 0 })
-        .sort({ updatedAt: -1 })
+        .sort({ [sort]: direction })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 };
