@@ -3,6 +3,7 @@ const Product = require('../models/productModel');
 const get = (page, pageSize) => {
     return Product
         .find({}, { __v: 0 })
+        .sort({ updatedAt: -1 })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 };

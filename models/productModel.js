@@ -12,7 +12,8 @@ const productSchema = new Schema({
     price: { type: Number, required: [true, 'Price is a required field'] },
     inStock: { type: Boolean, default: false },
     category: { type: String, required: [true, 'Category is required'] },
-    discount: { type: Number, default: 0 }
+    discount: { type: Number, default: 0 },
+    updatedAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('product', productSchema);
