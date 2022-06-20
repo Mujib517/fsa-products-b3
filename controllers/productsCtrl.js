@@ -6,6 +6,7 @@ const getOptions = (req) => {
 
     let sort = req.query.sort;
     let dir = req.query.dir || '';
+    const search = req.query.search || '';
 
     if (!sort) {
         sort = 'updatedAt';
@@ -18,7 +19,8 @@ const getOptions = (req) => {
         page,
         pageSize,
         sort,
-        dir
+        dir,
+        search
     };
 };
 
@@ -26,7 +28,8 @@ const get = async (req, res) => {
     try {
         const options = getOptions(req);
         const data = await productRepository.get(options);
-        const totalRecords = await productRepository.getCount();
+        const totalRecords = await productRepository.getCount(options);
+
         const totalPages = Math.ceil(totalRecords / options.pageSize);
 
         const repsonse = {

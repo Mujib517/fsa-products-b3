@@ -1,7 +1,8 @@
+const { listenerCount } = require('../models/productModel');
 const Product = require('../models/productModel');
 
 const get = (options) => {
-    const { page, pageSize, sort, dir } = options;
+    const { page, pageSize, sort, dir, search } = options;
 
     let direction;
 
@@ -18,15 +19,35 @@ const get = (options) => {
             break;
     }
 
+    let filter = {};
+
+    if (search) {
+        filter = {
+            $or: [{ brand: search },
+            { model: search },
+            { category: search }]
+        };
+    }
+
     return Product
-        .find({}, { __v: 0 })
+        .find(filter, { __v: 0 })
         .sort({ [sort]: direction })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 };
 
-const getCount = () => {
-    return Product.count();
+const getCount = (options) => {
+    const { search } = options;
+    let filter = {};
+
+    if (search) {
+        filter = {
+            $or: [{ brand: search },
+            { model: search },
+            { category: search }]
+        };
+    }
+    return Product.count(filter);
 };
 
 const getById = (id) => {
