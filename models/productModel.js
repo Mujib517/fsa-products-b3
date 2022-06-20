@@ -13,6 +13,7 @@ const productSchema = new Schema({
     inStock: { type: Boolean, default: false },
     category: { type: String, required: [true, 'Category is required'] },
     discount: { type: Number, default: 0 },
+    createdAt: { type: Date },
     updatedAt: { type: Date, default: Date.now }
 });
 

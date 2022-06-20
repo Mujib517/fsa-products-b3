@@ -56,6 +56,7 @@ const getById = async (req, res) => {
 // index.js -> product router -> product ctrl -> product repo
 const post = async (req, res) => {
     try {
+        req.body.createdAt = new Date();
         await productRepository.create(req.body);
         res.status(201);
         res.send();
