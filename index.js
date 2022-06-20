@@ -25,6 +25,7 @@ const filePath = path.join(__dirname, 'logs', 'request.log');
 const stream = fs.createWriteStream(filePath, { flags: 'a' });
 
 app.use(morgan('combined', { stream: stream }));
+app.use(morgan('combined'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
