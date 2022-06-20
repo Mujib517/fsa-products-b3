@@ -8,6 +8,7 @@ const path = require('path');
 const homeRouter = require('./routes/homeRouter');
 const productRouter = require('./routes/productRouter');
 const config = require('./config');
+const logger = require('./utils/appLogger');
 
 const app = express();
 
@@ -27,9 +28,12 @@ const stream = fs.createWriteStream(filePath, { flags: 'a' });
 app.use(morgan('combined', { stream: stream }));
 app.use(morgan('combined'));
 
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+logger.info('App has started running');
 
 mongoose.connect(config.dbConStr, (err, result) => {
     if (!err) {

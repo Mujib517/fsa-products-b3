@@ -1,5 +1,5 @@
 const productRepository = require('../repositories/productRepository');
-
+const logger = require('../utils/appLogger');
 // request
 // application
 // INFO, WARN, ERROR, DEBUG
@@ -29,6 +29,7 @@ const getOptions = (req) => {
 };
 
 const get = async (req, res) => {
+    logger.info('Get Request made');
     try {
         const options = getOptions(req);
         const data = await productRepository.get(options);
@@ -43,6 +44,8 @@ const get = async (req, res) => {
             },
             data
         };
+
+        logger.info({ msg: 'data successfully fetched', data: data });
 
         res.status(200);
         res.json(repsonse);
@@ -68,6 +71,7 @@ const post = async (req, res) => {
         res.status(201);
         res.send();
     } catch (err) {
+        logger.error(err);
         if (err && err.message.indexOf('validation failed') > -1) {
             res.status(400);
             res.send(err);
