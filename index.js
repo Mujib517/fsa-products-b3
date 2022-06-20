@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 
 const homeRouter = require('./routes/homeRouter');
 const productRouter = require('./routes/productRouter');
@@ -11,6 +14,17 @@ const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
+
+
+const dir = path.join(__dirname, 'logs');
+if (!fs.existsSync(dir)) {
+    // create a file
+    fs.mkdirSync(dir);
+}
+const filePath = path.join(__dirname, 'logs', 'request.log');
+const stream = fs.createWriteStream(filePath, { flags: 'a' });
+
+app.use(morgan('combined', { stream: stream }));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -1,5 +1,9 @@
 const productRepository = require('../repositories/productRepository');
 
+// request
+// application
+// INFO, WARN, ERROR, DEBUG
+// file, db 
 const getOptions = (req) => {
     const pageSize = +req.params.size || 10;
     const page = +req.params.page || 1;
