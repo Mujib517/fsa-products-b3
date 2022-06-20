@@ -1,4 +1,3 @@
-const { listenerCount } = require('../models/productModel');
 const Product = require('../models/productModel');
 
 const get = (options) => {
@@ -23,9 +22,9 @@ const get = (options) => {
 
     if (search) {
         filter = {
-            $or: [{ brand: search },
-            { model: search },
-            { category: search }]
+            $or: [{ brand: { $regex: search, $options: 'i' } },
+            { model: { $regex: search, $options: 'i' } },
+            { category: { $regex: search, $options: 'i' } }]
         };
     }
 
@@ -42,9 +41,9 @@ const getCount = (options) => {
 
     if (search) {
         filter = {
-            $or: [{ brand: search },
-            { model: search },
-            { category: search }]
+            $or: [{ brand: { $regex: search, $options: 'i' } },
+            { model: { $regex: search, $options: 'i' } },
+            { category: { $regex: search, $options: 'i' } }]
         };
     }
     return Product.count(filter);
