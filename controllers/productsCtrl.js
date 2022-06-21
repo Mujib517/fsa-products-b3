@@ -1,4 +1,5 @@
 const productRepository = require('../repositories/productRepository');
+const reviewRepository = require('../repositories/reviewRepository');
 const logger = require('../utils/appLogger');
 // request
 // application
@@ -59,8 +60,13 @@ const get = async (req, res) => {
 const getById = async (req, res) => {
     const id = req.params.id;
     const product = await productRepository.getById(id);
+    const reviews = await reviewRepository.getReviewsByProductId(id);
+
+    const jsonProduct = product.toJSON();
+    jsonProduct.reviews = reviews;
+
     res.status(200);
-    res.json(product);
+    res.json(jsonProduct);
 };
 
 // index.js -> product router -> product ctrl -> product repo

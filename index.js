@@ -7,6 +7,7 @@ const path = require('path');
 
 const homeRouter = require('./routes/homeRouter');
 const productRouter = require('./routes/productRouter');
+const reviewRouter = require('./routes/reviewRouter');
 const config = require('./config');
 const logger = require('./utils/appLogger');
 
@@ -45,6 +46,7 @@ mongoose.connect(config.dbConStr, (err, result) => {
 
 app.use('/', homeRouter);
 app.use('/api/products', productRouter);
+app.use('/api/reviews', reviewRouter);
 
 // POST http://localhost:3000/api/products body{}
 
