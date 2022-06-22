@@ -1,6 +1,6 @@
 const get = (req, res) => {
     res.status(200);
-    res.send('Products API');
+    res.send('FSA API');
 };
 
 const health = (req, res) => {
