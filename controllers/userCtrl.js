@@ -24,4 +24,23 @@ const post = async (req, res) => {
     }
 };
 
+const login = async (req, res) => {
+    const data = req.body;
+    const user = await userRepository.getUser(data);
+    if (!user) {
+        res.status(401);
+        res.send('Wrong email or password');
+    } else {
+        // compare
+        // if (user.password === hash(password)) {
+
+        // } else {
+        //     res.status(401);
+        //     res.send('Wrong username or password');
+        // }
+    }
+
+}
+
+
 module.exports = { post };
