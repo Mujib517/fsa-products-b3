@@ -10,6 +10,7 @@ const productRouter = require('./routes/productRouter');
 const reviewRouter = require('./routes/reviewRouter');
 const config = require('./config');
 const logger = require('./utils/appLogger');
+const auth = require('./utils/auth');
 
 const app = express();
 
@@ -44,36 +45,9 @@ mongoose.connect(config.dbConStr, (err, result) => {
     }
 });
 
-function authenticate(req, res, next) {
-    const authHeader = req.headers.authorization;
-    if (authHeader) {
-        // verify credentials
-        const tokens = authHeader.split(' ');
-        const encodedStr = tokens[1];
-        let buff = new Buffer(encodedStr, 'base64');
-        let decodedStr = buff.toString('utf-8');
-
-        const credentials = decodedStr.split(':');
-        const username = credentials[0];
-        const password = credentials[1];
-
-        if (username === 'admin' && password === 'password') {
-            next();
-        }
-        else {
-            res.status(401);
-            res.send('Unauthorized');
-        }
-
-    } else {
-        res.status(401);
-        res.send('Unauthorized');
-    }
-}
-
 // public
 // encoding 
-app.use(authenticate);
+app.use(auth.basicAuth);
 app.use('/', homeRouter);
 
 
