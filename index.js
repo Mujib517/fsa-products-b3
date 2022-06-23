@@ -8,6 +8,7 @@ const path = require('path');
 const homeRouter = require('./routes/homeRouter');
 const productRouter = require('./routes/productRouter');
 const reviewRouter = require('./routes/reviewRouter');
+const userRouter = require('./routes/userRouter');
 const config = require('./config');
 const logger = require('./utils/appLogger');
 const auth = require('./utils/auth');
@@ -17,7 +18,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-
 
 const dir = path.join(__dirname, 'logs');
 if (!fs.existsSync(dir)) {
@@ -29,7 +29,6 @@ const stream = fs.createWriteStream(filePath, { flags: 'a' });
 
 app.use(morgan('combined', { stream: stream }));
 app.use(morgan('combined'));
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
@@ -47,13 +46,12 @@ mongoose.connect(config.dbConStr, (err, result) => {
 
 // public
 // encoding 
-app.use(auth.basicAuth);
 app.use('/', homeRouter);
-
 
 // private
 app.use('/api/products', productRouter);
 app.use('/api/reviews', reviewRouter);
+app.use('/api/users', userRouter);
 
 // POST http://localhost:3000/api/products body{}
 
