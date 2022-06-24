@@ -33,4 +33,35 @@ function generateToken(payload) {
     return jwt.sign(payload, config.jwtSecret, { expiresIn: '1d' });
 }
 
-module.exports = { basicAuth, generateToken };
+function tokenAuth(req, res, next) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401);
+            res.send('Unauthorized');
+        } else {
+            // Bearer akdjfkajdf.adkfjadkf.adkfjdka
+            const tokens = authHeader.split(' ');
+            const jwtToken = tokens[1];
+            const response = jwt.verify(jwtToken, config.jwtSecret);
+            if (response) {
+                console.log(response);
+                next();
+            }
+            else {
+                res.status(401);
+                res.send('Unauthorized');
+            }
+        }
+    }
+    catch (e) {
+        res.status(401);
+        res.send('Unauthorized');
+    }
+}
+
+module.exports = {
+    basicAuth,
+    generateToken,
+    tokenAuth
+};

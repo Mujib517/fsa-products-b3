@@ -47,11 +47,13 @@ mongoose.connect(config.dbConStr, (err, result) => {
 // public
 // encoding 
 app.use('/', homeRouter);
+app.use('/api/users', userRouter);
+
+app.use(auth.tokenAuth);
 
 // private
 app.use('/api/products', productRouter);
 app.use('/api/reviews', reviewRouter);
-app.use('/api/users', userRouter);
 
 // POST http://localhost:3000/api/products body{}
 
