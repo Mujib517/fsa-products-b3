@@ -4,4 +4,8 @@ const getHash = (password) => {
     return bcrypt.hash(password, 1);
 };
 
-module.exports = { getHash };
+const comparePasswords = (plainText, hash) => {
+    return bcrypt.compare(plainText, hash);
+};
+
+module.exports = { getHash, comparePasswords };

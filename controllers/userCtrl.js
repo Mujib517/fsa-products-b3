@@ -1,6 +1,7 @@
 const userRepository = require('../repositories/userRepository');
 const logger = require('../utils/appLogger');
 const crypt = require('../utils/crypt');
+const auth = require('../utils/auth');
 
 const post = async (req, res) => {
     try {
@@ -32,15 +33,23 @@ const login = async (req, res) => {
         res.send('Wrong email or password');
     } else {
         // compare
-        // if (user.password === hash(password)) {
-
-        // } else {
-        //     res.status(401);
-        //     res.send('Wrong username or password');
-        // }
+        const response = await crypt.comparePasswords(data.password, user.password);
+        if (response) {
+            // ok
+            res.status(200);
+            const token = auth.generateToken({ email: user.email });
+            res.json({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                token: token
+            });
+        } else {
+            res.status(401);
+            res.send('Wrong username or password');
+        }
     }
-
 }
 
+module.exports = { post, login };
 
-module.exports = { post };

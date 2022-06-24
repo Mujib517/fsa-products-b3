@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+
 function basicAuth(req, res, next) {
     const authHeader = req.headers.authorization;
     if (authHeader) {
@@ -26,4 +29,8 @@ function basicAuth(req, res, next) {
     }
 }
 
-module.exports = { basicAuth };
+function generateToken(payload) {
+    return jwt.sign(payload, config.jwtSecret, { expiresIn: '1d' });
+}
+
+module.exports = { basicAuth, generateToken };

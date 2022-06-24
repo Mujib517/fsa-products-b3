@@ -11,7 +11,7 @@ const register = (data) => {
 // 200
 // 401
 const getUser = (data) => {
-    return User.findOne({ email: data.email }, { email: 1, password: 1 });
+    return User.findOne({ email: data.email }, { email: 1, password: 1, firstName: 1, lastName: 1 });
 };
 
 module.exports = { register, getUser };
