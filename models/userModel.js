@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
     password: { type: String, required: true },
     active: { type: Boolean, default: true },
     createdAt: { type: Date, required: true },
+    role: { type: String, default: 'User' },
     updatedAt: { type: Date, default: Date.now }
 });
 
