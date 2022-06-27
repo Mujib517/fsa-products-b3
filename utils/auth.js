@@ -45,7 +45,7 @@ function tokenAuth(req, res, next) {
             const jwtToken = tokens[1];
             const response = jwt.verify(jwtToken, config.jwtSecret);
             if (response) {
-                console.log(response);
+                req.role = response.role;
                 next();
             }
             else {
@@ -60,8 +60,22 @@ function tokenAuth(req, res, next) {
     }
 }
 
+// api/products/page/1/size/10
+// index.js -> auth.js -> products
+// delete
+// api/products/:id
+function authorizeAdmmin(req, res, next) {
+    const role = req.role;
+    if (role === 'Admin') next();
+    else {
+        res.status(403);
+        res.send('Forbidden');
+    }
+}
+
 module.exports = {
     basicAuth,
     generateToken,
-    tokenAuth
+    tokenAuth,
+    authorizeAdmmin
 };

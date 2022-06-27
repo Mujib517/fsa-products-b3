@@ -1,5 +1,6 @@
 const express = require('express');
 const productCtrl = require('../controllers/productsCtrl');
+const auth = require('../utils/auth');
 const router = express.Router();
 
 // http://localhost:3000/api/products/
@@ -10,8 +11,9 @@ router.post('/', productCtrl.post);
 // http://localhost:3000/api/products/akdfjdk123434
 router.get('/:id', productCtrl.getById);
 
-router.delete('/:id', productCtrl.remove);
-router.put('/:id', productCtrl.update);
+// index.js -> authenticated -> authorizes -> ctrl -> repo
+router.delete('/:id', auth.authorizeAdmmin, productCtrl.remove);
+router.put('/:id', auth.authorizeAdmmin, productCtrl.update);
 router.patch('/:id', productCtrl.patch);
 // DELETE http://localhost:3000/api/products/:id
 
