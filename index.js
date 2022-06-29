@@ -49,7 +49,7 @@ mongoose.connect(config.dbConStr, (err, result) => {
 app.use('/', homeRouter);
 app.use('/api/users', userRouter);
 
-app.use(auth.tokenAuth);
+// app.use(auth.tokenAuth);
 
 // private
 app.use('/api/products', productRouter);
