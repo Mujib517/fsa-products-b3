@@ -9,4 +9,6 @@ const schema = new mongoose.Schema({
     productId: { type: String, required: true }
 });
 
+schema.index({ productId: 1 });
+
 module.exports = mongoose.model('review', schema);
