@@ -36,6 +36,13 @@ const get = async (req, res) => {
         const data = await productRepository.get(options);
         const totalRecords = await productRepository.getCount(options);
 
+        const transformedData = data.map(product => {
+            return {
+                ...product._doc,
+                img: 'http://localhost:3000/' + product._doc.img
+            }
+        })
+
         const totalPages = Math.ceil(totalRecords / options.pageSize);
 
         const repsonse = {
@@ -43,7 +50,7 @@ const get = async (req, res) => {
                 totalRecords,
                 totalPages,
             },
-            data
+            data:transformedData
         };
 
         logger.info({ msg: 'data successfully fetched', data: data });

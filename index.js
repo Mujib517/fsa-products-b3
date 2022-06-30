@@ -19,6 +19,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+app.use(express.static('uploads/'));
+
 const dir = path.join(__dirname, 'logs');
 if (!fs.existsSync(dir)) {
     // create a file
