@@ -35,11 +35,14 @@ const get = async (req, res) => {
         const options = getOptions(req);
         const data = await productRepository.get(options);
         const totalRecords = await productRepository.getCount(options);
+        
+        const protocol = req.protocol;
+        const host = req.get('host');
 
         const transformedData = data.map(product => {
             return {
                 ...product._doc,
-                img: 'http://localhost:3000/' + product._doc.img
+                img: `${protocol}://${host}/${product._doc.img}`
             }
         })
 
@@ -50,7 +53,7 @@ const get = async (req, res) => {
                 totalRecords,
                 totalPages,
             },
-            data:transformedData
+            data: transformedData
         };
 
         logger.info({ msg: 'data successfully fetched', data: data });
