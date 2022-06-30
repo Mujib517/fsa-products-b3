@@ -35,14 +35,14 @@ const get = async (req, res) => {
         const options = getOptions(req);
         const data = await productRepository.get(options);
         const totalRecords = await productRepository.getCount(options);
-        
+
         const protocol = req.protocol;
         const host = req.get('host');
 
         const transformedData = data.map(product => {
             return {
                 ...product._doc,
-                img: `${protocol}://${host}/${product._doc.img}`
+                img: product._doc.img ? `${protocol}://${host}/${product._doc.img}` : ''
             }
         })
 
