@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const homeRouter = require('./routes/homeRouter');
 const productRouter = require('./routes/productRouter');
@@ -17,6 +18,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+// allowed all
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.static('uploads/'));
